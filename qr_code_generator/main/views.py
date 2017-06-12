@@ -17,8 +17,10 @@ def article(request, number):
     text = 'Displaying article number: %s' % number
     return HttpResponse(text)
 
+
 def connect(request):
     return render(request, 'main/template/login.html')
+
 
 def login(request):
     username = "not logged in"
