@@ -7,7 +7,8 @@ import datetime
 
 def hello(request, number=1):
     today = datetime.datetime.now().date()
-    return render(request, "main/template/hello.html", {'today': today})
+    daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    return render(request, "main/template/hello.html", {'today': today, 'days_of_week': daysOfWeek})
 
 
 def article(request, number):

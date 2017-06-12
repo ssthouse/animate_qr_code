@@ -1,10 +1,12 @@
-<html>
+{% extends 'main/template/main_template.html'%}
+{% block title %}My Hello Page{% endblock %}
 
-<body>
+{% block content %}
   Hello world!
   <p>Today is {{today}}</p>
   <br />
 
+  <!-- if标签 -->
   {% if today.day == 1 %}
   Today is the begin of the month!
   {% elif today.day == 30 %}
@@ -12,6 +14,9 @@
   {% else %}
   I don't know!
   {% endif %}
-</body>
 
-</html>
+  <!-- for标签 -->
+  {% for day in days_of_week %}
+  <h4>{{day}}</h4>
+  {% endfor %}
+{% endblock%}
