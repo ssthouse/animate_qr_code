@@ -10,5 +10,6 @@ class Dreamreal(models.Model):
     name = models.CharField(max_length=50)
     phonenumber = models.IntegerField()
 
+    # 配置数据库表名
     class Meta:
         db_table = 'dreamreal'

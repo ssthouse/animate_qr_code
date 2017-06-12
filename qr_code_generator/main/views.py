@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import datetime
 from main.models import Dreamreal
+from main.forms import LoginForm
 
 # Create your views here.
 
@@ -15,6 +16,19 @@ def hello(request, number=1):
 def article(request, number):
     text = 'Displaying article number: %s' % number
     return HttpResponse(text)
+
+def connect(request):
+    return render(request, 'main/template/login.html')
+
+def login(request):
+    username = "not logged in"
+    if request.method == "POST":
+        MyLoginForm = LoginForm(request.POST)
+        if(MyLoginForm.is_valid()):
+            username = MyLoginForm.cleaned_data['username']
+    else:
+        MyLoginForm = LoginForm()
+    return render(request, 'main/template/loggedin.html', {'username': username})
 
 
 def crudops(request):
