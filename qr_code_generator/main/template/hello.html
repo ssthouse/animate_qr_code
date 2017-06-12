@@ -1,1 +1,17 @@
-<h1>welcome to my app !</h1>
+<html>
+
+<body>
+  Hello world!
+  <p>Today is {{today}}</p>
+  <br />
+
+  {% if today.day == 1 %}
+  Today is the begin of the month!
+  {% elif today.day == 30 %}
+  Today is the end of the month!
+  {% else %}
+  I don't know!
+  {% endif %}
+</body>
+
+</html>
