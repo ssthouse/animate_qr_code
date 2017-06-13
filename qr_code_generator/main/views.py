@@ -7,6 +7,9 @@ from main.forms import LoginForm
 # Create your views here.
 
 
+def index(request):
+    return render(request, 'main/template/index.html')
+
 def hello(request, number=1):
     today = datetime.datetime.now().date()
     daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
