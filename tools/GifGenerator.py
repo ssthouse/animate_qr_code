@@ -7,31 +7,40 @@ from PIL import Image
 
 
 class GifGenerator:
-
     # 默认路径
     BASE_DIR = './temp'
     # 初始二维码文件
     QR_CODE_FILENAME = 'qr_code.png'
+    # 动图的一些常量数据
     GIF_FILENAME = 'result.gif'
+    QR_CODE_WIDTH = 477
+    GIF_PAST_POINT = (163, 163)
+    GIF_SIZE = (150, 150)
 
-    def __init__(self, url):
+    def __init__(self, url, src_file, with_bg=False):
+        self.gif_duration = 0.02
         # 初始化传入url
         self.url = url
-        # 生成文件夹
+        self.src_file = src_file
+        self.with_bg = with_bg
         self.tempDir = self.BASE_DIR + '/' + str(int(time.time() * 1000))
-        # print(self.tempDir)
-        # print(os.getcwd())
         os.mkdir(self.tempDir)
         # 生成二维码文件
         self.generate_qr_code()
 
     def generate_qr_code(self):
         # 将URL转化为指定名称的二维码文件
+        bg_file = None
+        if self.with_bg:
+            # 将gif第一张图保存下来
+            gif_img = Image.open(self.src_file)
+            gif_img.save(self.tempDir + '/' + 'bg.png')
+            bg_file = self.tempDir + '/' + 'bg.png'
         myqr.run(self.url,
-                 version=10,
+                 version=7,
                  level='H',
                  save_name=self._getQrFilePath(),
-                 picture='200.jpg',
+                 picture=bg_file,
                  colorized=True)
 
     def _getQrFilePath(self):
@@ -47,22 +56,12 @@ class GifGenerator:
         imageio.mimwrite(self.tempDir + '/' + self.GIF_FILENAME,
                          imgData, duration=timeSpan)
 
-    def generate_gif_with_gif(self, gifFilename, timeSpan=0.2):
-        # imgList = imageio.mimread(gifFilename)
-        # print(imgList)
-        # print(type(imgList[0]))
-        gifImg = Image.open(gifFilename)
-        imgIndex = 0
-        palettee = None
-        imgList = []
-        while True:
-            try:
-                gifImg.seek(imgIndex)
-                imgList.append(gifImg.copy())
-                imgIndex += 1
-            except EOFError:
-                break
-        resizedImgList = [img.resize((200, 200), Image.ANTIALIAS)
+    def generate_gif_with_gif(self):
+        gifImg = Image.open(self.src_file)
+        # 初始化动图间隔
+        self.gif_duration = gifImg.info['duration'] / 1000.0
+        imgList = self._get_imgs_from_gif(gifImg)
+        resizedImgList = [img.resize(self.GIF_SIZE, Image.ANTIALIAS)
                           for img in imgList]
         # 合成图像 => 获得合成的图片列表
         resultImgList = []
@@ -71,17 +70,30 @@ class GifGenerator:
                 self._getQrFilePath(), image=img))
         imgDataList = [numpy.asarray(im, dtype='uint8')
                        for im in resultImgList]
-        imgData = numpy.asarray(imgDataList[:7])
+        imgData = numpy.asarray(imgDataList)
         imageio.mimwrite(self.tempDir + '/' + self.GIF_FILENAME,
-                         imgData, duration=timeSpan)
+                         imgData, duration=self.gif_duration)
+
+    def _get_imgs_from_gif(self, gif_img):
+        # 获取动图的图片序列
+        imgIndex = 0
+        imgList = []
+        while True:
+            try:
+                gif_img.seek(imgIndex)
+                imgList.append(gif_img.copy())
+                imgIndex += 1
+            except EOFError:
+                break
+        return imgList
 
     def _get_qr_code_with_img(self, qrFileName, imgFileName=None, image=None):
-        # 获取中间的图片Image
-        if(imgFileName != None):
+        # 获取带有中间的图片Image
+        if (imgFileName != None):
             img = Image.open(qrFileName)
-        if(image != None):
+        if (image != None):
             img = image
         # 获取嵌入有图片的二维码
         qrImg = Image.open(qrFileName)
-        qrImg.paste(img, (200, 200))
+        qrImg.paste(img, self.GIF_PAST_POINT)
         return qrImg
