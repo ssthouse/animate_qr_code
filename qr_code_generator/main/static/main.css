@@ -1,7 +1,11 @@
 .gif_img {
-    width: 240px;
-    height: 240px;
-    margin-left: 24px;
-    margin-right: 24px;
+    width: 220px;
+    height: 220px;
+    margin-left: 12px;
+    margin-right: 12px;
     text-align: center;
 }
+
+/*.cus-label{*/
+    /*font-size: ;*/
+/*}*/

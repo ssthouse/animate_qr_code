@@ -30,7 +30,7 @@ class GifGenerator:
 
     def generate_qr_code(self):
         # 将URL转化为指定名称的二维码文件
-        bg_file = None
+        bg_file = './200.jpg'
         if self.with_bg:
             # 将gif第一张图保存下来
             gif_img = Image.open(self.src_file)
