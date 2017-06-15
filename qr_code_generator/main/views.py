@@ -17,7 +17,6 @@ def submit_img(request):
     saved = False
     if request.method == "POST":
         gifForm = GifForm(request.POST, request.FILES)
-        print("what is;s empty?" if request.FILES is None else request.FILES)
         if gifForm.is_valid():
             gifModel = GifModel()
             gifModel.url = gifForm.cleaned_data['url']
@@ -25,6 +24,10 @@ def submit_img(request):
             gifModel.picture = gifForm.cleaned_data['picture']
             gifModel.save()
             saved = True
+            # generate file path
+            abs_path = str(gifModel.picture)
+            pic_path = abs_path[abs_path.find('/') + 1:]
+            print("pic_path:  " + pic_path)
         else:
             print("the form is invalid!!!!!!!!!!!!!!!!")
     else:

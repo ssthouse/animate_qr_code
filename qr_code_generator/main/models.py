@@ -18,7 +18,7 @@ class Dreamreal(models.Model):
 class GifModel(models.Model):
     url = models.CharField(max_length=100)
     colorful = models.CharField(max_length=100)
-    picture = models.ImageField(upload_to='pictures')
+    picture = models.ImageField(upload_to='static/pictures')
 
     class Meta:
         db_table = 'gif'
