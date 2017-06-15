@@ -7,4 +7,6 @@ class LoginForm(forms.Form):
 
 
 class GifForm(forms.Form):
+    url = forms.CharField(max_length=100)
+    colorful = forms.CharField(max_length=100)
     picture = forms.ImageField()

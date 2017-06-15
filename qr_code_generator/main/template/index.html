@@ -25,7 +25,11 @@
             </div>
         </div>
 
-        <form class="col-xs-6" style="margin-top: 24px;">
+        <form class="col-xs-6" style="margin-top: 24px;"
+              name="form" enctype="multipart/form-data"
+              action="{% url 'submit' %}" method="POST">
+            {% csrf_token %}
+
             <h1 style="text-align: center;">
                 <label class='label label-primary'>Amazing QR Code</label>
             </h1>
@@ -46,8 +50,11 @@
                 <div class="col-xs-8" style="margin-top: 8px;">
                     <label style="margin-left: 24px; "><input type="radio"
                                                               name="colorful"
+                                                              value="Yes"
                                                               style="margin-right: 10px;">Yes</label>
-                    <label style="margin-left: 24px;"><input type="radio" name="colorful"
+                    <label style="margin-left: 24px;"><input type="radio"
+                                                             name="colorful"
+                                                             value="No"
                                                              style="margin-right: 10px;">No</label>
                 </div>
             </div>
@@ -57,9 +64,14 @@
                 <h4 class="col-xs-3 col-from-label from-label cus-label"
                     style="text-align: center;">上传图片:</h4>
                 <div class="col-xs-8">
-                    <input name="image" type="file" placeholder="图片文件" style="padding-top: 10px;"/>
+                    <input name="picture" type="file" placeholder="图片文件" style="padding-top: 10px;"/>
                 </div>
             </div>
+            <div style="width: 54px; margin: 24px auto auto;">
+                <button class="btn btn-success">提交
+                </button>
+            </div>
+
         </form>
     </div>
 </div>

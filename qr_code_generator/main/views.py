@@ -1,14 +1,38 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import datetime
-from main.models import Dreamreal
-from main.forms import LoginForm
+from main.models import Dreamreal, GifModel
+from main.forms import LoginForm, GifForm
+
 
 # Create your views here.
 
 
 def index(request):
     return render(request, 'main/template/index.html')
+
+
+# TODO: 处理图片数据
+def submit_img(request):
+    saved = False
+    if request.method == "POST":
+        gifForm = GifForm(request.POST, request.FILES)
+        print("what is;s empty?" if request.FILES is None else request.FILES)
+        if gifForm.is_valid():
+            gifModel = GifModel()
+            gifModel.url = gifForm.cleaned_data['url']
+            gifModel.colorful = gifForm.cleaned_data['colorful']
+            gifModel.picture = gifForm.cleaned_data['picture']
+            gifModel.save()
+            saved = True
+        else:
+            print("the form is invalid!!!!!!!!!!!!!!!!")
+    else:
+        gifForm = GifForm()
+        print("the form is not POST!!!!!!!!!!!!!!!!")
+
+    return render(request, 'main/template/success.html', locals())
+
 
 def hello(request, number=1):
     today = datetime.datetime.now().date()
@@ -29,7 +53,7 @@ def login(request):
     username = "not logged in"
     if request.method == "POST":
         MyLoginForm = LoginForm(request.POST)
-        if(MyLoginForm.is_valid()):
+        if (MyLoginForm.is_valid()):
             username = MyLoginForm.cleaned_data['username']
     else:
         MyLoginForm = LoginForm()
