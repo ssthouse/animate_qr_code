@@ -7,6 +7,8 @@ from main.tools.GifGenerator import GifGenerator
 
 
 # Create your views here.
+def default(request):
+    return render(request, 'main/template/index.html')
 
 
 def index(request):
