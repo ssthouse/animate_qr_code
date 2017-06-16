@@ -13,8 +13,24 @@
 </head>
 
 <body>
-Success!
-<img src="{% static pic_path %}"/>
-</body>
 
+<h1 style="text-align: center;">Here you go!</h1>
+
+<!--最终的效果图-->
+<div class="row">
+    <img src="{% static gif_path %}"
+         class="col-xs-4 col-xs-offset-4"/>
+</div>
+
+<!--下载最终效果图的表单-->
+<form action="{% url 'download'%}" method="POST">
+    {% csrf_token %}
+    <input name="download_path" value="{{ result_path }}" type="text" style="visibility: hidden"/>
+    <div style="margin: auto; width: 100px;">
+        <button class="btn btn-success"
+                style="margin: auto;">下载二维码
+        </button>
+    </div>
+</form>
+</body>
 </html>

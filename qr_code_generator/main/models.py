@@ -18,7 +18,10 @@ class Dreamreal(models.Model):
 class GifModel(models.Model):
     url = models.CharField(max_length=100)
     colorful = models.CharField(max_length=100)
+    # 用户上传picture路径
     picture = models.ImageField(upload_to='static/pictures')
+    # 生成二维码的路径
+    result = models.CharField(max_length=100, default='')
 
     class Meta:
         db_table = 'gif'

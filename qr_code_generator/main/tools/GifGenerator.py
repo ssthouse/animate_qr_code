@@ -8,7 +8,7 @@ from PIL import Image
 
 class GifGenerator:
     # 默认路径
-    BASE_DIR = './temp'
+    BASE_DIR = 'static/temp'
     # 初始二维码文件
     QR_CODE_FILENAME = 'qr_code.png'
     # 动图的一些常量数据
@@ -30,27 +30,30 @@ class GifGenerator:
 
     def generate_qr_code(self):
         # 将URL转化为指定名称的二维码文件
-        bg_file = './200.jpg'
+        bg_file = './static/200.jpg'
         if self.with_bg:
             # 将gif第一张图保存下来
             gif_img = Image.open(self.src_file)
-            gif_img.save(self.tempDir + '/' + 'bg.png')
             bg_file = self.tempDir + '/' + 'bg.png'
+            gif_img.save(bg_file)
         myqr.run(self.url,
                  version=7,
                  level='H',
-                 save_name=self._getQrFilePath(),
+                 save_name=self._get_qr_file_path(),
                  picture=bg_file,
                  colorized=True)
 
-    def _getQrFilePath(self):
+    def _get_qr_file_path(self):
         return self.tempDir + '/' + self.QR_CODE_FILENAME
+
+    def get_result_path(self):
+        return self.tempDir + '/' + self.GIF_FILENAME
 
     def generate_gif_with_imgs(self, imgFileList, timeSpan=0.2):
         imgList = []
         for filename in imgFileList:
             imgList.append(self._get_qr_code_with_img(
-                self._getQrFilePath(), imgFileName=filename))
+                self._get_qr_file_path(), imgFileName=filename))
         imgDataList = [numpy.asarray(im, dtype='uint8') for im in imgList]
         imgData = numpy.asarray(imgDataList)
         imageio.mimwrite(self.tempDir + '/' + self.GIF_FILENAME,
@@ -67,7 +70,7 @@ class GifGenerator:
         resultImgList = []
         for img in resizedImgList:
             resultImgList.append(self._get_qr_code_with_img(
-                self._getQrFilePath(), image=img))
+                self._get_qr_file_path(), image=img))
         imgDataList = [numpy.asarray(im, dtype='uint8')
                        for im in resultImgList]
         imgData = numpy.asarray(imgDataList)

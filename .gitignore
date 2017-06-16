@@ -98,3 +98,4 @@ ENV/
 
 # idea files
 .idea
+qr_code_generator/static/temp
