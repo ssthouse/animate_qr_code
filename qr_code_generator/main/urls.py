@@ -2,7 +2,6 @@ from django.conf.urls import include, url
 from main.views import default, hello, article, crudops, connect, login, index, submit_img, download_gif
 
 urlpatterns = [
-    url(r'^', default, name=''),
     url(r'^hello/', hello, name='hello'),
     url(r'^article/(\d+)', article, name='article'),
     url(r'^test_db/', crudops, name='test_db'),
@@ -10,5 +9,7 @@ urlpatterns = [
     url(r'^login/', login, name='login'),
     url(r'^index/', index, name='index'),
     url(r'^submit/', submit_img, name='submit'),
-    url(r'^download', download_gif, name='download')
+    url(r'^download', download_gif, name='download'),
+    url(r'^', default, name=''),
+
 ]
